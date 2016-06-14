@@ -17,10 +17,10 @@
     "application/json"
   ],
   "paths": {
-    "/api/common/register": {
+    "/api/register": {
       "post": {
         "tags": [
-          "api","common"
+          "api"
         ],
         "parameters": [
           {
@@ -50,10 +50,10 @@
         }
       }
     },
-    "/api/common/login": {
+    "/api/login": {
       "post": {
         "tags": [
-          "api","common"
+          "api"
         ],
         "parameters": [
           {
@@ -83,10 +83,10 @@
         }
       }
     },
-    "/api/user/logout": {
+    "/api/logout": {
       "put": {
         "tags": [
-          "api","user"
+          "api"
         ],
         "parameters": [
           {
@@ -114,10 +114,10 @@
         }
       }
     },
-    "/api/user/profile-view": {
+    "/api/profile-view": {
       "put": {
         "tags": [
-         "api", "user"
+         "api"
         ],
         "parameters": [
           {
@@ -145,10 +145,10 @@
         }
       }
     },
-    "/api/user/profile-update": {
+    "/api/profile-update": {
       "put": {
         "tags": [
-         "api", "user"
+         "api"
         ],
         "parameters": [
           {
