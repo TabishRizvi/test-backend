@@ -19,6 +19,7 @@ module.exports.LogoutCtrl = function(req,res,next){
 
     var context = req.originalUrl;
 
+    console.log(req.headers);
 
     async.waterfall([
             function(cb){
