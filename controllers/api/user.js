@@ -32,6 +32,7 @@ module.exports.LogoutCtrl = function(req,res,next){
                     }
                     else{
                         dataObject = decoded;
+                        cb(null);
                     }
                 });
             },
