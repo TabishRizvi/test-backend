@@ -189,7 +189,7 @@ module.exports.ProfileUpdateCtrl = function(req,res,next){
 
                     if(err){
                         lib.logging.logError(context,err);
-                        cb({status :400, data: err.details[0].message});
+                        cb({status :400, data: err.details[0].message.replace(/["]/ig, '')});
                     }
 
                     else{
