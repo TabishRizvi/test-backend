@@ -84,7 +84,7 @@
       }
     },
     "/api/logout": {
-      "put": {
+      "delete": {
         "tags": [
           "api"
         ],
@@ -115,7 +115,7 @@
       }
     },
     "/api/profile-view": {
-      "put": {
+      "get": {
         "tags": [
          "api"
         ],
