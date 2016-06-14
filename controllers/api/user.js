@@ -186,11 +186,10 @@ module.exports.ProfileUpdateCtrl = function(req,res,next){
             function(cb){
                 Joi.validate(dataObject,schema,{},function(err){
 
-                    console.log("s",err);
 
                     if(err){
                         lib.logging.logError(context,err);
-                        cb({status :400});
+                        cb({status :400, data: err.details[0].message});
                     }
 
                     else{
