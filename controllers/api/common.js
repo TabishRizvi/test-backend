@@ -138,6 +138,7 @@ module.exports.LoginCtrl = function(req,res,next){
                     }
                     else{
                         dataObject.id = result[0].id;
+                        cb(null);
                     }
                 });
             },
