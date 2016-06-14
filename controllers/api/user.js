@@ -152,6 +152,20 @@ module.exports.ProfileUpdateCtrl = function(req,res,next){
 
 
     async.waterfall([
+
+            function(cb){
+                Joi.validate(dataObject,schema,{},function(err){
+
+                    if(err){
+                        lib.logging.logError(context,err);
+                        cb({status :400});
+                    }
+
+                    else{
+                        cb(null);
+                    }
+                });
+            },
             function(cb){
 
                 lib.utils.validateAccessToken(req.headers.authorization,function(err,valid,decoded){
