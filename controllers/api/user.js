@@ -19,12 +19,10 @@ module.exports.LogoutCtrl = function(req,res,next){
 
     var context = req.originalUrl;
 
-    console.log(req.headers);
-
     async.waterfall([
             function(cb){
 
-                lib.utils.validateAccessToken(req.headers.Authorization,function(err,valid,decoded){
+                lib.utils.validateAccessToken(req.headers.authorization,function(err,valid,decoded){
                     if(err){
                         lib.logging.logError(context, err);
                         cb({status: 500});
