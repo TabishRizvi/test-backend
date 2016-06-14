@@ -1,0 +1,242 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Test Backend",
+    "description": "This is API  documentation of test-backend project\n"
+  },
+  "host": "tabishrizvi.com:7777",
+  "basePath": "",
+  "schemes": [
+    "http"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/common/register": {
+      "post": {
+        "tags": [
+          "common"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "request body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegisterSchema"
+            }
+          }
+
+        ],
+        "responses": {
+          "201": {
+            "description": "User registered."
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "409": {
+            "description": "Email/Phone is already registered."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/common/login": {
+      "post": {
+        "tags": [
+          "common"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "request body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/LoginSchema"
+            }
+          }
+
+        ],
+        "responses": {
+          "200": {
+            "description": "OK."
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Invalid email/password."
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/user/logout": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "OAuth token",
+            "required": true,
+            "type": "string"
+          }
+
+        ],
+        "responses": {
+          "200": {
+            "description": "OK."
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/user/profile-view": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "OAuth token",
+            "required": true,
+            "type": "string"
+          }
+
+        ],
+        "responses": {
+          "200": {
+            "description": "OK."
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/user/profile-update": {
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "OAuth token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "request body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ProfileUpdateSchema"
+            }
+          }
+
+        ],
+        "responses": {
+          "200": {
+            "description": "OK."
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "RegisterSchema": {
+      "type": "object",
+      "required": [
+        "name","email","gender","password","mobile"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "mobile": {
+          "type": "string"
+        }
+      }
+    },
+    "LoginSchema": {
+      "type": "object",
+      "required": [
+        "email","password"
+      ],
+      "properties": {
+        "email": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "ProfileUpdateSchema": {
+      "type": "object",
+      "required": [
+        "name","gender"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "gender": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
