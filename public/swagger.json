@@ -6,7 +6,7 @@
     "description": "This is API  documentation of test-backend project\n"
   },
   "host": "tabishrizvi.com:7777",
-  "basePath": "tabishrizvi.com:7777",
+  "basePath": "",
   "schemes": [
     "http"
   ],
