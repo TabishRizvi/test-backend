@@ -84,7 +84,7 @@ module.exports.ProfileViewCtrl = function(req,res,next){
     async.waterfall([
             function(cb){
 
-                lib.utils.validateAccessToken(req.headers.Authorization,function(err,valid,decoded){
+                lib.utils.validateAccessToken(req.headers.authorization,function(err,valid,decoded){
                     if(err){
                         lib.logging.logError(context, err);
                         cb({status: 500});
@@ -94,6 +94,7 @@ module.exports.ProfileViewCtrl = function(req,res,next){
                     }
                     else{
                         dataObject = decoded;
+                        cb(null);
                     }
                 });
             },
@@ -153,7 +154,7 @@ module.exports.ProfileUpdateCtrl = function(req,res,next){
     async.waterfall([
             function(cb){
 
-                lib.utils.validateAccessToken(req.headers.Authorization,function(err,valid,decoded){
+                lib.utils.validateAccessToken(req.headers.authorization,function(err,valid,decoded){
                     if(err){
                         lib.logging.logError(context, err);
                         cb({status: 500});
@@ -163,6 +164,7 @@ module.exports.ProfileUpdateCtrl = function(req,res,next){
                     }
                     else{
                         dataObject.id = decoded.id;
+                        cb(null);
                     }
                 });
             },
