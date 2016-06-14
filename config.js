@@ -7,7 +7,7 @@ module.exports = {
     mysql:{
         host:'localhost',
         port:3306,
-        user:'tabish',
+        user:'root',
         password:'clickpass',
         database:'test-backend',
         dateStrings:true
