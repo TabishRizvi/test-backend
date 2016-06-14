@@ -102,6 +102,7 @@ app.use(function (req, res, next) {
  *
  */
 app.use(function (err, req, res, next) {
+
     console.log("err",err);
 
     if(err.status==400){
@@ -110,13 +111,8 @@ app.use(function (err, req, res, next) {
 
     }
 
-    if(err.type=="api"){
-        res.status(500).send("Internal Server Error");
-    }
-    else{
-        res.render("wrong");
+    res.status(500).send("Internal Server Error");
 
-    }
 });
 
 

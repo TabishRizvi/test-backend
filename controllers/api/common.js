@@ -27,11 +27,11 @@ module.exports.RegisterCtrl = function(req,res,next){
 
     async.waterfall([
         function(cb){
-            Joi.validate(dataObject,schema,{},function(err){
+            Joi.validate(dataObject,schema,{presence : "required"},function(err){
 
                 if(err){
                     lib.logging.logError(context,err);
-                    cb({status :400});
+                    cb({status :400, data: err.details[0].message});
                 }
 
                 else{
@@ -79,7 +79,7 @@ module.exports.RegisterCtrl = function(req,res,next){
             res.status(err.status).send({
                 message :lib.utils.getErrorMessage(err.status),
                 status : err.status,
-                data : result
+                data : err.data==undefined?{}:err.data
             });
         }
         else{
@@ -112,7 +112,7 @@ module.exports.LoginCtrl = function(req,res,next){
 
                     if(err){
                         lib.logging.logError(context,err);
-                        cb({status :400});
+                        cb({status :400, data: err.details[0].message});
                     }
 
                     else{
@@ -178,7 +178,7 @@ module.exports.LoginCtrl = function(req,res,next){
                 res.status(err.status).send({
                     message :lib.utils.getErrorMessage(err.status),
                     status : err.status,
-                    data : result
+                    data : err.data==undefined?{}:err.data
                 });
             }
             else{

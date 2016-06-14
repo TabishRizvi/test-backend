@@ -20,6 +20,16 @@ module.exports.LogoutCtrl = function(req,res,next){
     var context = req.originalUrl;
 
     async.waterfall([
+
+            function(cb){
+
+                if(req.headers.authorization==undefined || req.headers.authorization=="" ){
+                    cb({ status : 400, message : "Authorization is missing."})
+                }
+                else{
+                    cb(null);
+                }
+            },
             function(cb){
 
                 lib.utils.validateAccessToken(req.headers.authorization,function(err,valid,decoded){
@@ -59,7 +69,7 @@ module.exports.LogoutCtrl = function(req,res,next){
                 res.status(err.status).send({
                     message :lib.utils.getErrorMessage(err.status),
                     status : err.status,
-                    data : result
+                    data : err.data==undefined? {} : err.data
                 });
             }
             else{
@@ -82,6 +92,16 @@ module.exports.ProfileViewCtrl = function(req,res,next){
 
 
     async.waterfall([
+
+            function(cb){
+
+                if(req.headers.authorization==undefined || req.headers.authorization=="" ){
+                    cb({ status : 400, message : "Authorization is missing."})
+                }
+                else{
+                    cb(null);
+                }
+            },
             function(cb){
 
                 lib.utils.validateAccessToken(req.headers.authorization,function(err,valid,decoded){
@@ -123,7 +143,7 @@ module.exports.ProfileViewCtrl = function(req,res,next){
                 res.status(err.status).send({
                     message :lib.utils.getErrorMessage(err.status),
                     status : err.status,
-                    data : result
+                    data : err.data==undefined?{}:err.data
                 });
             }
             else{
@@ -152,6 +172,16 @@ module.exports.ProfileUpdateCtrl = function(req,res,next){
 
 
     async.waterfall([
+
+            function(cb){
+
+                if(req.headers.authorization==undefined || req.headers.authorization=="" ){
+                    cb({ status : 400, message : "Authorization is missing."})
+                }
+                else{
+                    cb(null);
+                }
+            },
 
             function(cb){
                 Joi.validate(dataObject,schema,{},function(err){
@@ -207,7 +237,7 @@ module.exports.ProfileUpdateCtrl = function(req,res,next){
                 res.status(err.status).send({
                     message :lib.utils.getErrorMessage(err.status),
                     status : err.status,
-                    data : result
+                    data : err.data==undefined? {} : err.data
                 });
             }
             else{
