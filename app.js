@@ -104,6 +104,11 @@ app.use(function (req, res, next) {
 app.use(function (err, req, res, next) {
     console.log("err",err);
 
+    if(err.code==400){
+        res.status(400).send("Invalid JSON");
+
+    }
+
     if(err.type=="api"){
         res.status(500).send("Internal Server Error");
     }
