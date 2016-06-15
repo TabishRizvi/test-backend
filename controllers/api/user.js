@@ -298,10 +298,12 @@ module.exports.ProfilePicUpdateCtrl = function(req,res,next){
 
             function(cb){
 
+                var fileName = lib.utils.generateFileName(config.fileNameLength);
+
                 async.parallel([
                     function(cb){
 
-                        lib.utils.uploadFile(req.file,"profile-pic","normal",function(err,uploadUrl){
+                        lib.utils.uploadFile(req.file,"profile-pic","normal",fileName,function(err,uploadUrl){
 
                             if(err){
 
@@ -322,7 +324,7 @@ module.exports.ProfilePicUpdateCtrl = function(req,res,next){
                     },
                     function(cb){
 
-                        lib.utils.uploadFile(req.file,"profile-pic","thumb",function(err,uploadUrl){
+                        lib.utils.uploadFile(req.file,"profile-pic","thumb",fileName,function(err,uploadUrl){
 
                             if(err){
 

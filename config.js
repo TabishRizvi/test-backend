@@ -25,9 +25,10 @@ module.exports = {
             width : 300
         },
         thumb : {
-            height : 300,
-            width : 300
+            height : 100,
+            width : 100
         }
-    }
+    },
+    fileNameLength : 7
 };
 
