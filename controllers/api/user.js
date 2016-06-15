@@ -262,7 +262,7 @@ module.exports.ProfilePicUpdateCtrl = function(req,res,next){
 
     var context = req.originalUrl;
 
-    var dataObject;
+    var dataObject ={};
 
     async.waterfall([
 
