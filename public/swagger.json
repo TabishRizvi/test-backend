@@ -322,11 +322,11 @@
         "title","desc"
       ],
       "properties": {
-        "name": {
-          "title": "string"
+        "title": {
+          "type": "string"
         },
-        "gender": {
-          "desc": "string"
+        "desc": {
+          "type": "string"
         }
       }
     }
