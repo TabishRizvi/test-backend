@@ -134,7 +134,7 @@ module.exports.ProfileViewCtrl = function(req,res,next){
 
                         if(result[0].is_pic==0){
                             response.pic = config.defaultPic;
-                            response.thumb = config.defaultPic;
+                            response.thumb = config.defaultThumb;
                         }
                         else{
                             response.pic  = result[0].pic;
