@@ -361,7 +361,7 @@ module.exports.CreateTaskCtrl = function(req,res,next){
 
     var schema = Joi.object().keys({
         title : Joi.string().min(1).max(50),
-        desc : Joi.string().min(1).max(250)
+        description : Joi.string().min(1).max(250)
     });
 
 
@@ -411,7 +411,7 @@ module.exports.CreateTaskCtrl = function(req,res,next){
             function(cb){
 
                 var currentMoment = moment();
-                var sql = "INSERT INTO tasks(user_id,created_datetime,title,desc) VALUES(?,?,?,?)";
+                var sql = "INSERT INTO tasks(user_id,created_datetime,title,description) VALUES(?,?,?,?)";
                 connection.query(sql,[dataObject.id,currentMoment.format("YYYY-MM-DD HH:mm:ss"),dataObject.title,dataObject.desc],function(err,result){
                     if(err){
                         lib.logging.logError(context,err);
