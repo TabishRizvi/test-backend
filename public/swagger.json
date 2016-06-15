@@ -114,7 +114,7 @@
         }
       }
     },
-    "/api/profile-view": {
+    "/api/profile/view": {
       "get": {
         "tags": [
          "api"
@@ -145,7 +145,7 @@
         }
       }
     },
-    "/api/profile-update": {
+    "/api/profile/update": {
       "put": {
         "tags": [
          "api"
@@ -185,7 +185,7 @@
         }
       }
     },
-    "/api/profile-pic-update": {
+    "/api/profile-pic/update": {
       "put": {
         "tags": [
           "api"
