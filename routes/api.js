@@ -24,8 +24,10 @@ router.get('/profile/view',controllers.api.user.ProfileViewCtrl);
 
 router.put('/profile/update',controllers.api.user.ProfileUpdateCtrl);
 
-
 router.put('/profile-pic/update',upload.single("profilePic"),controllers.api.user.ProfilePicUpdateCtrl);
+
+router.post('/task',controllers.api.user.CreateTaskCtrl);
+
 
 
 

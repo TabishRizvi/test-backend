@@ -350,3 +350,95 @@ module.exports.ProfilePicUpdateCtrl = function(req,res,next){
             }
         });
 };
+
+
+module.exports.CreateTaskCtrl = function(req,res,next){
+
+
+    var dataObject = req.body;
+
+    var context = req.originalUrl;
+
+    var schema = Joi.object().keys({
+        title : Joi.string().min(1).max(50),
+        desc : Joi.string().min(1).max(250)
+    });
+
+
+    async.waterfall([
+
+            function(cb){
+
+                if(req.headers.authorization==undefined || req.headers.authorization=="" ){
+                    cb({ status : 400, message : "Authorization is missing."})
+                }
+                else{
+                    cb(null);
+                }
+            },
+
+            function(cb){
+                Joi.validate(dataObject,schema,{},function(err){
+
+
+                    if(err){
+                        lib.logging.logError(context,err);
+                        cb({status :400, data: err.details[0].message.replace(/["]/ig, '')});
+                    }
+
+                    else{
+                        cb(null);
+                    }
+                });
+            },
+            function(cb){
+
+                lib.utils.validateAccessToken(req.headers.authorization,function(err,valid,decoded){
+                    if(err){
+                        lib.logging.logError(context, err);
+                        cb({status: 500});
+                    }
+                    else if(!valid){
+                        cb({status : 401});
+                    }
+                    else{
+                        dataObject.id = decoded.id;
+                        cb(null);
+                    }
+                });
+            },
+
+            function(cb){
+
+                var currentMoment = moment();
+                var sql = "INSERT INTO tasks(user_id,created_datetime,title,desc) VALUES(?,?,?,?)";
+                connection.query(sql,[dataObject.id,currentMoment.format("YYYY-MM-DD HH:mm:ss"),dataObject.title,dataObject.desc],function(err,result){
+                    if(err){
+                        lib.logging.logError(context,err);
+                        cb({status :500});
+                    }
+                    else{
+                        cb(null,{status:200, data : {}});
+                    }
+                })
+            }
+
+        ],
+        function(err,result){
+
+            if(err){
+                res.status(err.status).send({
+                    message :lib.utils.getErrorMessage(err.status),
+                    status : err.status,
+                    data : err.data==undefined? {} : err.data
+                });
+            }
+            else{
+                res.status(result.status).send({
+                    message : lib.utils.getSuccessMessage(result.status),
+                    status : result.status,
+                    data : result.data
+                });
+            }
+        });
+};
