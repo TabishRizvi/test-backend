@@ -17,6 +17,7 @@ module.exports = {
         secretKey:'K7hT8wTa8chstrcwcHM4fTve4WykgnAKJxrS1pKZ',
         bucket:'test-backend'
     },
-    HMACKey:'mrGygohOaZ2RHoEG9hmm'
+    HMACKey:'mrGygohOaZ2RHoEG9hmm',
+    defaultPic :"https://s3-us-west-2.amazonaws.com/test-backend/profile-pic/default-avatar.v9899025.gif"
 };
 
