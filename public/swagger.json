@@ -184,6 +184,44 @@
           }
         }
       }
+    },
+    "/api/profile-pic-update": {
+      "put": {
+        "tags": [
+          "api"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "OAuth token",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "profilePic",
+            "in": "formData",
+            "description": "profile picture",
+            "required": true,
+            "type": "file"
+          }
+
+        ],
+        "responses": {
+          "200": {
+            "description": "OK."
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
     }
   },
   "definitions": {

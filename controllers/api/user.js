@@ -131,6 +131,13 @@ module.exports.ProfileViewCtrl = function(req,res,next){
                     else{
 
                         var response = _.pick(result[0],["email","name","gender","mobile"]);
+
+                        if(result[0].is_pic==0){
+                            response.pic = config.defaultPic;
+                        }
+                        else{
+                            response.pic  = result[0].pic;
+                        }
                         cb(null,{status:200, data : response});
                     }
                 })
@@ -219,6 +226,101 @@ module.exports.ProfileUpdateCtrl = function(req,res,next){
 
                 var sql = "UPDATE users SET name=?,gender=? WHERE id=?";
                 connection.query(sql,[dataObject.name,dataObject.gender,dataObject.id],function(err,result){
+                    if(err){
+                        lib.logging.logError(context,err);
+                        cb({status :500});
+                    }
+                    else{
+                        cb(null,{status:200, data : {}});
+                    }
+                })
+            }
+
+        ],
+        function(err,result){
+
+            if(err){
+                res.status(err.status).send({
+                    message :lib.utils.getErrorMessage(err.status),
+                    status : err.status,
+                    data : err.data==undefined? {} : err.data
+                });
+            }
+            else{
+                res.status(result.status).send({
+                    message : lib.utils.getSuccessMessage(result.status),
+                    status : result.status,
+                    data : result.data
+                });
+            }
+        });
+};
+
+
+module.exports.ProfilePicUpdateCtrl = function(req,res,next){
+
+
+    var context = req.originalUrl;
+
+    var dataObject;
+
+    async.waterfall([
+
+            function(cb){
+
+                if(req.headers.authorization==undefined || req.headers.authorization=="" ){
+                    cb({ status : 400, message : "Authorization is missing."})
+                }
+                else{
+                    cb(null);
+                }
+            },
+
+            function(cb){
+
+                lib.utils.validateAccessToken(req.headers.authorization,function(err,valid,decoded){
+                    if(err){
+                        lib.logging.logError(context, err);
+                        cb({status: 500});
+                    }
+                    else if(!valid){
+                        cb({status : 401});
+                    }
+                    else{
+                        dataObject.id = decoded.id;
+                        cb(null);
+                    }
+                });
+            },
+
+
+            function(cb){
+
+                lib.utils.uploadFile(req.file,"profile-pic",function(err,uploadUrl){
+
+                    if(err){
+
+                        if(err.status==400){
+                            cb({status : 400, data : "profilePic must be an image"});
+                        }
+                        else{
+                            lib.logging.logError(context, err);
+                            cb({status: 500});
+                        }
+                    }
+                    else{
+                        cb(null,uploadUrl);
+                    }
+                });
+            },
+
+
+
+            function(uploadUrl,cb){
+
+
+                var sql = "UPDATE users SET pic=? WHERE id=?";
+                connection.query(sql,[uploadUrl,dataObject.id],function(err,result){
                     if(err){
                         lib.logging.logError(context,err);
                         cb({status :500});

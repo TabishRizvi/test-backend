@@ -1,5 +1,11 @@
 var express = require('express'),
-    controllers = require("../controllers");
+    controllers = require("../controllers"),
+    os = require('os'),
+    multer = require('multer');
+
+
+
+var upload = multer({dest: os.tmpdir()});
 
 
 var router = express.Router();
@@ -17,6 +23,9 @@ router.delete('/logout',controllers.api.user.LogoutCtrl);
 router.get('/profile-view',controllers.api.user.ProfileViewCtrl);
 
 router.put('/profile-update',controllers.api.user.ProfileUpdateCtrl);
+
+
+router.put('/profile-pic/update',upload.single("profilePic"),controllers.api.user.ProfilePicUpdateCtrl);
 
 
 
