@@ -319,8 +319,8 @@ module.exports.ProfilePicUpdateCtrl = function(req,res,next){
             function(uploadUrl,cb){
 
 
-                var sql = "UPDATE users SET pic=? WHERE id=?";
-                connection.query(sql,[uploadUrl,dataObject.id],function(err,result){
+                var sql = "UPDATE users SET is_pic=?,pic=? WHERE id=?";
+                connection.query(sql,[0,uploadUrl,dataObject.id],function(err,result){
                     if(err){
                         lib.logging.logError(context,err);
                         cb({status :500});
