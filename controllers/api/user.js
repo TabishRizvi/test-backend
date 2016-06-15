@@ -412,7 +412,7 @@ module.exports.CreateTaskCtrl = function(req,res,next){
 
                 var currentMoment = moment();
                 var sql = "INSERT INTO tasks(user_id,created_datetime,title,description) VALUES(?,?,?,?)";
-                connection.query(sql,[dataObject.id,currentMoment.format("YYYY-MM-DD HH:mm:ss"),dataObject.title,dataObject.desc],function(err,result){
+                connection.query(sql,[dataObject.id,currentMoment.format("YYYY-MM-DD HH:mm:ss"),dataObject.title,dataObject.description],function(err,result){
                     if(err){
                         lib.logging.logError(context,err);
                         cb({status :500});
