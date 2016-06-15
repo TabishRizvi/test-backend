@@ -483,7 +483,7 @@ module.exports.ListTasksCtrl = function(req,res,next){
             function(cb){
 
 
-                var sql = "SELECT id as taskId,created_datetime as dateCreated,title FROM tasks WHERE user_id=?";
+                var sql = "SELECT id as taskId,DATE_FORMAT(created_datetime, '%Y-%m-%dT%TZ')  as dateCreated,title FROM tasks WHERE user_id=?";
                 connection.query(sql,[dataObject.id],function(err,result){
                     if(err){
                         lib.logging.logError(context,err);
@@ -577,7 +577,7 @@ module.exports.TaskDetailCtrl = function(req,res,next){
             function(cb){
 
 
-                var sql = "SELECT id as taskId,created_datetime as dateCreated,title,description FROM tasks WHERE id=?";
+                var sql = "SELECT id as taskId,DATE_FORMAT(created_datetime, '%Y-%m-%dT%TZ') as dateCreated,title,description FROM tasks WHERE id=?";
                 connection.query(sql,[dataObject.taskId],function(err,result){
                     if(err){
                         lib.logging.logError(context,err);
