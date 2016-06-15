@@ -134,9 +134,11 @@ module.exports.ProfileViewCtrl = function(req,res,next){
 
                         if(result[0].is_pic==0){
                             response.pic = config.defaultPic;
+                            response.thumb = config.defaultPic;
                         }
                         else{
                             response.pic  = result[0].pic;
+                            response.thumb  = result[0].thumb;
                         }
                         cb(null,{status:200, data : response});
                     }
@@ -296,31 +298,69 @@ module.exports.ProfilePicUpdateCtrl = function(req,res,next){
 
             function(cb){
 
-                lib.utils.uploadFile(req.file,"profile-pic",function(err,uploadUrl){
+                async.parallel([
+                    function(cb){
 
+                        lib.utils.uploadFile(req.file,"profile-pic","normal",function(err,uploadUrl){
+
+                            if(err){
+
+                                if(err.status==400){
+                                    cb({status : 400, data : "profilePic must be an image"});
+                                }
+                                else{
+                                    lib.logging.logError(context, err);
+                                    cb({status: 500});
+                                }
+                            }
+                            else{
+                                dataObject.pic = uploadUrl;
+                                cb(null);
+                            }
+                        });
+
+                    },
+                    function(cb){
+
+                        lib.utils.uploadFile(req.file,"profile-pic","thumb",function(err,uploadUrl){
+
+                            if(err){
+
+                                if(err.status==400){
+                                    cb({status : 400, data : "profilePic must be an image"});
+                                }
+                                else{
+                                    lib.logging.logError(context, err);
+                                    cb({status: 500});
+                                }
+                            }
+                            else{
+                                dataObject.thumb = uploadUrl;
+                                cb(null);
+                            }
+                        });
+
+                    }
+                ],function(err){
+
+                    lib.utils.deleteFile(req.file);
                     if(err){
-
-                        if(err.status==400){
-                            cb({status : 400, data : "profilePic must be an image"});
-                        }
-                        else{
-                            lib.logging.logError(context, err);
-                            cb({status: 500});
-                        }
+                        cb(err);
                     }
                     else{
-                        cb(null,uploadUrl);
+                        cb(null);
                     }
-                });
+                })
+
             },
 
 
 
-            function(uploadUrl,cb){
+            function(cb){
 
 
-                var sql = "UPDATE users SET is_pic=?,pic=? WHERE id=?";
-                connection.query(sql,[1,uploadUrl,dataObject.id],function(err,result){
+                var sql = "UPDATE users SET is_pic=?,pic=?,thumb=? WHERE id=?";
+                connection.query(sql,[1,dataObject.pic,dataObject.thumb,dataObject.id],function(err,result){
                     if(err){
                         lib.logging.logError(context,err);
                         cb({status :500});

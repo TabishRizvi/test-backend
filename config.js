@@ -18,6 +18,16 @@ module.exports = {
         bucket:'test-backend'
     },
     HMACKey:'mrGygohOaZ2RHoEG9hmm',
-    defaultPic :"https://s3-us-west-2.amazonaws.com/test-backend/profile-pic/default-avatar.v9899025.gif"
+    defaultPic :"https://s3-us-west-2.amazonaws.com/test-backend/profile-pic/default-avatar.v9899025.gif",
+    imageSizes :{
+        normal : {
+            height : 300,
+            width : 300
+        },
+        thumb : {
+            height : 300,
+            width : 300
+        }
+    }
 };
 
