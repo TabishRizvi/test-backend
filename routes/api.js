@@ -28,6 +28,10 @@ router.put('/profile-pic/update',upload.single("profilePic"),controllers.api.use
 
 router.post('/task',controllers.api.user.CreateTaskCtrl);
 
+router.get('/task',controllers.api.user.ListTasksCtrl);
+
+router.get('/task/:taskId',controllers.api.user.TaskDetailCtrl);
+
 
 
 

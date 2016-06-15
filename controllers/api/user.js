@@ -442,3 +442,172 @@ module.exports.CreateTaskCtrl = function(req,res,next){
             }
         });
 };
+
+
+module.exports.ListTasksCtrl = function(req,res,next){
+
+
+    var dataObject;
+
+    var context = req.originalUrl;
+
+
+    async.waterfall([
+
+            function(cb){
+
+                if(req.headers.authorization==undefined || req.headers.authorization=="" ){
+                    cb({ status : 400, message : "Authorization is missing."})
+                }
+                else{
+                    cb(null);
+                }
+            },
+            function(cb){
+
+                lib.utils.validateAccessToken(req.headers.authorization,function(err,valid,decoded){
+                    if(err){
+                        lib.logging.logError(context, err);
+                        cb({status: 500});
+                    }
+                    else if(!valid){
+                        cb({status : 401});
+                    }
+                    else{
+                        dataObject = decoded;
+                        cb(null);
+                    }
+                });
+            },
+
+            function(cb){
+
+
+                var sql = "SELECT id as taskId,created_datetime as dateCreated,title FROM tasks WHERE user_id=?";
+                connection.query(sql,[dataObject.id],function(err,result){
+                    if(err){
+                        lib.logging.logError(context,err);
+                        cb({status :500});
+                    }
+                    else{
+
+                        var response = result;
+
+                        cb(null,{status:200, data : response});
+                    }
+                })
+            }
+
+        ],
+        function(err,result){
+
+            if(err){
+                res.status(err.status).send({
+                    message :lib.utils.getErrorMessage(err.status),
+                    status : err.status,
+                    data : err.data==undefined?{}:err.data
+                });
+            }
+            else{
+                res.status(result.status).send({
+                    message : lib.utils.getSuccessMessage(result.status),
+                    status : result.status,
+                    data : result.data
+                });
+            }
+        });
+};
+
+module.exports.TaskDetailCtrl = function(req,res,next){
+
+
+    var dataObject = req.params;
+
+    var context = req.originalUrl;
+
+    var schema = Joi.object().keys({
+        taskId : Joi.number().integer()
+    });
+
+
+
+    async.waterfall([
+
+            function(cb){
+
+                if(req.headers.authorization==undefined || req.headers.authorization=="" ){
+                    cb({ status : 400, message : "Authorization is missing."})
+                }
+                else{
+                    cb(null);
+                }
+            },
+
+            function(cb){
+                Joi.validate(dataObject,schema,{},function(err){
+
+
+                    if(err){
+                        lib.logging.logError(context,err);
+                        cb({status :400, data: err.details[0].message.replace(/["]/ig, '')});
+                    }
+
+                    else{
+                        cb(null);
+                    }
+                });
+            },
+            function(cb){
+
+                lib.utils.validateAccessToken(req.headers.authorization,function(err,valid,decoded){
+                    if(err){
+                        lib.logging.logError(context, err);
+                        cb({status: 500});
+                    }
+                    else if(!valid){
+                        cb({status : 401});
+                    }
+                    else{
+                        dataObject.id = decoded.id;
+                        cb(null);
+                    }
+                });
+            },
+
+            function(cb){
+
+
+                var sql = "SELECT id as taskId,created_datetime as dateCreated,title,description FROM tasks WHERE id=?";
+                connection.query(sql,[dataObject.taskId],function(err,result){
+                    if(err){
+                        lib.logging.logError(context,err);
+                        cb({status :500});
+                    }
+                    else{
+
+                        var response = result[0];
+
+                        cb(null,{status:200, data : response});
+                    }
+                })
+            }
+
+        ],
+        function(err,result){
+
+            if(err){
+                res.status(err.status).send({
+                    message :lib.utils.getErrorMessage(err.status),
+                    status : err.status,
+                    data : err.data==undefined?{}:err.data
+                });
+            }
+            else{
+                res.status(result.status).send({
+                    message : lib.utils.getSuccessMessage(result.status),
+                    status : result.status,
+                    data : result.data
+                });
+            }
+        });
+};
