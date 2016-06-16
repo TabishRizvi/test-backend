@@ -26,9 +26,8 @@ var app = express();
  *To set default views directory and view engine( in this case, handlebars)
  *
  */
-app.use(express.static('public'));
 app.set('view engine', 'handlebars');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views',__dirname+'/views');
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 
 console.log(__dirname);
@@ -53,7 +52,7 @@ app.use(function(req, res, next) {
  */
 app.use(morgan('dev'));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(__dirname+ '/public'));
 
 
 
