@@ -31,6 +31,7 @@ app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 
+console.log(__dirname);
 
 
 /**
