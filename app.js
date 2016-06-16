@@ -26,13 +26,14 @@ var app = express();
  *To set default views directory and view engine( in this case, handlebars)
  *
  */
-app.set('views',__dirname+'/views');
-
 app.set('view engine', 'handlebars');
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs({
+    defaultLayout: 'main',
+    layoutsDir : __dirname+"/views/layouts/",
+    partialsDir : __dirname+"/views/"
+}));
 
-console.log(__dirname);
-console.log(process.cwd());
+
 
 
 /**
