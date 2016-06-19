@@ -9,7 +9,7 @@ module.exports.query = function(sql,params,cb){
     pool.getConnection(function(err, connection) {
         connection.query(sql,params, function() {
 
-            cb(arguments);
+            cb.apply(this,arguments);
             connection.release();
         });
     });
