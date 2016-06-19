@@ -9,7 +9,7 @@ var Joi =require("joi"),
     moment = require("moment"),
     lib = require("../../lib"),
     config = require("../../config"),
-    connection = require("../../db");
+    db = require("../../db");
 
 
 module.exports.LogoutCtrl = function(req,res,next){
@@ -51,7 +51,7 @@ module.exports.LogoutCtrl = function(req,res,next){
 
 
                 var sql = "UPDATE users SET access_token=? WHERE id=?";
-                connection.query(sql,["",dataObject.id],function(err,result){
+                db.query(sql,["",dataObject.id],function(err,result){
                     if(err){
                         lib.logging.logError(context,err);
                         cb({status :500});
@@ -123,7 +123,7 @@ module.exports.ProfileViewCtrl = function(req,res,next){
 
 
                 var sql = "SELECT * FROM users WHERE id=?";
-                connection.query(sql,[dataObject.id],function(err,result){
+                db.query(sql,[dataObject.id],function(err,result){
                     if(err){
                         lib.logging.logError(context,err);
                         cb({status :500});
@@ -227,7 +227,7 @@ module.exports.ProfileUpdateCtrl = function(req,res,next){
 
 
                 var sql = "UPDATE users SET name=?,gender=? WHERE id=?";
-                connection.query(sql,[dataObject.name,dataObject.gender,dataObject.id],function(err,result){
+                db.query(sql,[dataObject.name,dataObject.gender,dataObject.id],function(err,result){
                     if(err){
                         lib.logging.logError(context,err);
                         cb({status :500});
@@ -362,7 +362,7 @@ module.exports.ProfilePicUpdateCtrl = function(req,res,next){
 
 
                 var sql = "UPDATE users SET is_pic=?,pic=?,thumb=? WHERE id=?";
-                connection.query(sql,[1,dataObject.pic,dataObject.thumb,dataObject.id],function(err,result){
+                db.query(sql,[1,dataObject.pic,dataObject.thumb,dataObject.id],function(err,result){
                     if(err){
                         lib.logging.logError(context,err);
                         cb({status :500});
@@ -454,7 +454,7 @@ module.exports.CreateTaskCtrl = function(req,res,next){
 
                 var currentMoment = moment();
                 var sql = "INSERT INTO tasks(user_id,created_datetime,title,description) VALUES(?,?,?,?)";
-                connection.query(sql,[dataObject.id,currentMoment.format("YYYY-MM-DD HH:mm:ss"),dataObject.title,dataObject.description],function(err,result){
+                db.query(sql,[dataObject.id,currentMoment.format("YYYY-MM-DD HH:mm:ss"),dataObject.title,dataObject.description],function(err,result){
                     if(err){
                         lib.logging.logError(context,err);
                         cb({status :500});
@@ -526,7 +526,7 @@ module.exports.ListTasksCtrl = function(req,res,next){
 
 
                 var sql = "SELECT id as taskId,DATE_FORMAT(created_datetime, '%Y-%m-%dT%TZ')  as dateCreated,title FROM tasks WHERE user_id=?";
-                connection.query(sql,[dataObject.id],function(err,result){
+                db.query(sql,[dataObject.id],function(err,result){
                     if(err){
                         lib.logging.logError(context,err);
                         cb({status :500});
@@ -620,7 +620,7 @@ module.exports.TaskDetailCtrl = function(req,res,next){
 
 
                 var sql = "SELECT id as taskId,DATE_FORMAT(created_datetime, '%Y-%m-%dT%TZ') as dateCreated,title,description FROM tasks WHERE id=?";
-                connection.query(sql,[dataObject.taskId],function(err,result){
+                db.query(sql,[dataObject.taskId],function(err,result){
                     if(err){
                         lib.logging.logError(context,err);
                         cb({status :500});

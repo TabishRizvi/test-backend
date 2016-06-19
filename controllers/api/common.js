@@ -5,7 +5,7 @@ var Joi =require("joi"),
     moment = require("moment"),
     lib = require("../../lib"),
     config = require("../../config"),
-    connection = require("../../db");
+    db = require("../../db");
 
 
 module.exports.RegisterCtrl = function(req,res,next){
@@ -61,7 +61,7 @@ module.exports.RegisterCtrl = function(req,res,next){
             dataObject.password = lib.utils.hashPassword(dataObject.password);
 
             var sql ="INSERT INTO users(email,name,gender,mobile,password) VALUES(?,?,?,?,?)";
-            connection.query(sql,[dataObject.email,dataObject.name,dataObject.gender,dataObject.mobile,dataObject.password],function(err,result){
+            db.query(sql,[dataObject.email,dataObject.name,dataObject.gender,dataObject.mobile,dataObject.password],function(err,result){
 
                 if(err){
                     lib.logging.logError(context,err);
@@ -127,7 +127,7 @@ module.exports.LoginCtrl = function(req,res,next){
 
 
                 var sql ="SELECT id FROM users WHERE email=? AND password=?";
-                connection.query(sql,[dataObject.email,dataObject.password],function(err,result){
+                db.query(sql,[dataObject.email,dataObject.password],function(err,result){
 
                     if(err) {
                         lib.logging.logError(context, err);
@@ -157,7 +157,7 @@ module.exports.LoginCtrl = function(req,res,next){
             function(cb){
 
                 var sql = "UPDATE users SET access_token=? WHERE id=?";
-                connection.query(sql,[dataObject.accessToken,dataObject.id],function(err,result){
+                db.query(sql,[dataObject.accessToken,dataObject.id],function(err,result){
                     if(err){
                         lib.logging.logError(context,err);
                         cb({status :500});
