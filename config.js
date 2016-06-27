@@ -7,17 +7,17 @@ module.exports = {
     mysql:{
         host:'localhost',
         port:3306,
-        user:'root',
-        password:'clickpass',
+        user:'*****',
+        password:'************',
         database:'test-backend',
         dateStrings:true
     },
     aws:{
-        accessKey:'AKIAI7QB57Y63SCQP55A',
-        secretKey:'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',
+        accessKey:'***************',
+        secretKey:'***************************',
         bucket:'test-backend'
     },
-    HMACKey:'mrGygohOaZ2RHoEG9hmm',
+    HMACKey:'********************',
     defaultPic :"https://test-backend.s3.amazonaws.com/profile-pic/default_normal.png",
     defaultThumb :"https://test-backend.s3.amazonaws.com/profile-pic/default_thumb.png",
     imageSizes :{
